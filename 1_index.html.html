@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta para Mamá</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #ffebf3; /* Fondo rosa suave */
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marca-agua {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: rgba(199, 21, 133, 0.2);
+            letter-spacing: 2px;
+            transform: rotate(-15deg);
+            user-select: none;
+            z-index: 1;
+        }
+
+        .contenedor {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            z-index: 2;
+        }
+
+        /* Sobre cerrado (la carta NO se ve) */
+        .sobre {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            background: #ff6b8b;
+            border-radius: 8px;
+            margin: 0 auto;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 107, 139, 0.3);
+            z-index: 3;
+            transition: height 0.5s ease;
+            overflow: hidden;
+        }
+
+        /* Pestaña del sobre (solo se levanta) */
+        .sobre-pestana {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 90px solid #e84393;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 4;
+        }
+
+        /* Carta (inicialmente invisible) */
+        .carta {
+            position: absolute;
+            width: 94%;
+            height: 380px;
+            background: white;
+            padding: 25px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            left: 3%;
+            top: 20px;
+            transform: translateY(-100%); /* Completamente oculta */
+            transition: transform 0.7s ease-out 0.3s; /* Sale después que la pestaña */
+            overflow-y: auto;
+            line-height: 1.6;
+            z-index: 2;
+        }
+
+        /* Cuando el sobre está abierto */
+        .sobre.abierto {
+            height: 450px; /* Aumenta altura para mostrar carta */
+        }
+
+        .sobre.abierto .sobre-pestana {
+            transform: rotateX(180deg); /* Solo levanta la pestaña */
+        }
+
+        .sobre.abierto .carta {
+            transform: translateY(0); /* Muestra la carta */
+        }
+
+        /* Flores de fondo */
+        .flor {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.7;
+            animation: flotar 8s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Estilos de texto */
+        h1 {
+            color: #e84393;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .mensaje {
+            color: #555;
+            font-size: 17px;
+            text-align: left;
+        }
+
+        .firma {
+            text-align: right;
+            margin-top: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: #e84393;
+        }
+    </style>
+</head>
+<body>
+    <div class="marca-agua">DANIEL SANCHEZ</div>
+    
+    <!-- Flores de fondo -->
+    <div id="flores"></div>
+    
+    <div class="contenedor">
+        <div class="sobre" id="sobre">
+            <div class="sobre-pestana"></div>
+            <div class="carta">
+                <h1>Para mi Mamá</h1>
+                <div class="mensaje">
+                    <p>Mamá, programé esto para ti.</p>
+                    <p>Mamá, feliz Día de la Madre. Mamá, te amo mucho, gracias por todo:</p>
+                    <ul>
+                        <li>Por tenerme paciencia</li>
+                        <li>Por cuidarme</li>
+                        <li>Por tratarme de entender</li>
+                    </ul>
+                    <p>Aunque esta vez no pude darte un regalo porque no tengo plata y ando pelado, gracias, mamá, por lo que haces día a día.
+PDTA: tiene tan buena ortografia por que use una revision, la ortografia es mucha lenteja para mi arroz, TE AMO MUCHO MAMA:</p>
+                    <ul>
+                        <li>Por cuidarme</li>
+                        <li>Por ser buena persona</li>
+                        <li>Por enseñarme valores</li>
+                        <li>Por siempre querer estar conmigo</li>
+                        <li>Por darme todo lo que necesito</li>
+                        <li>Por querer que esté bien cada día</li>
+                    </ul>
+                    <p>Sé que algún día en mi vida voy a pensar que no hice lo suficiente para disfrutar a mi mamá, y quiero disfrutar contigo lo más que pueda, ya que tengo una muy buena mamá, una muy buena persona, alguien muy especial con quien siempre puedo contar.</p>
+                    <p>Gracias, mamá.</p>
+                </div>
+                <div class="firma"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animación CORREGIDA
+        const sobre = document.getElementById('sobre');
+        
+        // Crear flores de fondo
+        const flores = ['🌸', '🌺', '🌹', '🌷'];
+        for (let i = 0; i < 8; i++) {
+            const flor = document.createElement('div');
+            flor.className = 'flor';
+            flor.innerHTML = flores[Math.floor(Math.random() * flores.length)];
+            flor.style.left = Math.random() * 100 + 'vw';
+            flor.style.top = Math.random() * 100 + 'vh';
+            flor.style.animationDelay = Math.random() * 5 + 's';
+            flor.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            document.getElementById('flores').appendChild(flor);
+        }
+
+        // Abrir/cerrar sobre
+        sobre.addEventListener('click', function() {
+            this.classList.toggle('abierto');
+        });
+    </script>
+</body>
+</html>
